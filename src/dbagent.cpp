@@ -168,53 +168,20 @@ static void lua_push_reply(lua_State* L, redisReply* reply)
     switch (reply->type)
     {
         case REDIS_REPLY_STRING:
-        lua_pushstring(L, "type");
-        lua_pushstring(L, "string");
-        lua_settable(L, -3);
-
-        lua_pushstring(L, "str");
-        lua_pushlstring(L, reply->str, reply->len);
-        lua_settable(L, -3);
-        break;
-
         case REDIS_REPLY_STATUS:
-        lua_pushstring(L, "type");
-        lua_pushstring(L, "status");
-        lua_settable(L, -3);
-
-        lua_pushstring(L, "str");
-        lua_pushlstring(L, reply->str, reply->len);
-        lua_settable(L, -3);
-        break;
-
         case REDIS_REPLY_ERROR:
-        lua_pushstring(L, "type");
-        lua_pushstring(L, "error");
-        lua_settable(L, -3);
-
-        lua_pushstring(L, "str");
         lua_pushlstring(L, reply->str, reply->len);
-        lua_settable(L, -3);
         break;
 
         case REDIS_REPLY_NIL:
-        lua_pushstring(L, "type");
-        lua_pushstring(L, "nil");
-        lua_settable(L, -3);
+        lua_pushboolean(L, false);
         break;
 
         case REDIS_REPLY_INTEGER:
-        lua_pushstring(L, "type");
-        lua_pushstring(L, "integer");
-        lua_settable(L, -3);
-
-        lua_pushstring(L, "integer");
         lua_pushinteger(L, reply->integer);
-        lua_settable(L, -3);
         break;
 
         case REDIS_REPLY_ARRAY:
-        lua_pushstring(L, "elements");
         lua_newtable(L);
         for (int i = 0; i < reply->elements; i++)
         {
@@ -222,13 +189,11 @@ static void lua_push_reply(lua_State* L, redisReply* reply)
             lua_push_reply(L, reply->element[i]);
             lua_settable(L, -3);
         }
-        lua_settable(L, -3);
         break;
 
         default:
-        lua_pushstring(L, "type");
-        lua_pushinteger(L, reply->type);
-        lua_settable(L, -3);
+		// never !
+        lua_pushboolean(L, false);
         break;
     }
 }
