@@ -1,3 +1,8 @@
+/*
+** repository: https://github.com/trumanzhao/luaredis.git
+** trumanzhao, 2017-10-26, trumanzhao@foxmail.com
+*/
+
 #pragma once
 
 #include <hiredis/hiredis.h>

@@ -1,3 +1,8 @@
+/*
+** repository: https://github.com/trumanzhao/luaredis.git
+** trumanzhao, 2017-10-26, trumanzhao@foxmail.com
+*/
+
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
@@ -192,7 +197,7 @@ static void lua_push_reply(lua_State* L, redisReply* reply)
         break;
 
         default:
-		// never !
+        // never !
         lua_pushboolean(L, false);
         break;
     }
