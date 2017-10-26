@@ -26,6 +26,9 @@ redis.command("set", "now", os.time());
 redis.on_reply = function(reply)
 	--reply可能是单值的string,int,bool(false),或者是以上类型的一个数组
 end
+
+--断开连接
+redis.disconnect();
 ```
 
 
