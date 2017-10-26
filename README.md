@@ -6,8 +6,10 @@ lua访问redis接入层,内部封装了hiredis,采用异步模式.
 
 ```lua
 lredis = require("lredis");
+
 --创建lredis实例,每个实例代表一个连接
 redis = lredis.create_agent();
+
 --连接redis,注意connect是异步的,需要设置on_connect回调响应结果
 redis.connect("127.0.0.1", 6379);
 
