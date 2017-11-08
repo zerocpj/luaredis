@@ -168,8 +168,6 @@ int dbagent::command(lua_State* L)
 
 static void lua_push_reply(lua_State* L, redisReply* reply)
 {
-    lua_newtable(L);
-
     switch (reply->type)
     {
         case REDIS_REPLY_STRING:
@@ -211,3 +209,4 @@ void dbagent::on_reply(redisReply* reply)
     lua_push_reply(m_lvm, reply);
     lua_call_function(m_lvm, nullptr, 1, 0);
 }
+
