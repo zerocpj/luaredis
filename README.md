@@ -11,7 +11,8 @@ lredis = require("lredis");
 redis = lredis.create_agent();
 
 --连接redis,注意connect是异步的,需要设置on_connect回调响应结果
-redis.connect("127.0.0.1", 6379);
+--2000为超时时间,单位毫秒
+redis.connect("127.0.0.1", 6379, 2000);
 
 redis.on_connect = function(ok)
 	--ok: 连接是否成功
