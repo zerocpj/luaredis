@@ -111,7 +111,7 @@ int dbagent::update(int timeout)
 
     int count = 0;
 
-    while (m_redis != nullptr && check_can_recv(m_redis->fd, timeout))
+    while (m_redis != nullptr && !m_redis->err && check_can_recv(m_redis->fd, timeout))
     {
         redisBufferRead(m_redis);
 
