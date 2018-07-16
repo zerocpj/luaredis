@@ -33,8 +33,8 @@ end
 --断开连接
 redis.disconnect();
 
---程序需要在主循环中不断的调用update
-redis.update();
+--程序需要在主循环中不断的调用update,这里的0表示io超时时间
+redis.update(0);
 ```
 
 
