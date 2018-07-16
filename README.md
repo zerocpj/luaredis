@@ -15,11 +15,11 @@ redis = lredis.create_agent();
 redis.connect("127.0.0.1", 6379, 2000);
 
 redis.on_connect = function(ok)
-	--ok: 连接是否成功
+    --ok: 连接是否成功
 end
 
 redis.on_disconnect = function()
-	--连接丢失...
+    --连接丢失...
 end
 
 
@@ -27,11 +27,14 @@ redis.command("set", "now", os.time());
 
 --注意command和reply是一一对应的
 redis.on_reply = function(reply)
-	--reply可能是单值的string,int,bool(false),或者是以上类型的一个数组
+    --reply可能是单值的string,int,bool(false),或者是以上类型的一个数组
 end
 
 --断开连接
 redis.disconnect();
+
+--程序需要在主循环中不断的调用update
+redis.update();
 ```
 
 
