@@ -22,6 +22,7 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #endif
+#include <poll.h>
 #include <string.h>
 #include "tools.h"
 #include "socket_helper.h"
@@ -130,24 +131,24 @@ bool get_ip_string(char ip[], size_t ip_size, const void* addr, size_t addr_len)
 
 bool check_can_send(socket_t fd, int timeout)
 {
-    timeval tv = { timeout / 1000, 1000 * (timeout % 1000) };
-    fd_set wset;
+    pollfd fds;
 
-    FD_ZERO(&wset);
-    FD_SET(fd, &wset);
+    fds.fd = fd;
+    fds.events = POLLOUT;
+    fds.revents = 0;
 
-    return select((int)fd + 1, nullptr, &wset, nullptr, timeout >= 0 ? &tv : nullptr) == 1;
+    return poll(&fds, 1, timeout) == 1;
 }
 
 bool check_can_recv(socket_t fd, int timeout)
 {
-    timeval tv = { timeout / 1000, 1000 * (timeout % 1000) };
-    fd_set rset;
+    pollfd fds;
 
-    FD_ZERO(&rset);
-    FD_SET(fd, &rset);
+    fds.fd = fd;
+    fds.events = POLLIN;
+    fds.revents = 0;
 
-    return select((int)fd + 1, &rset, nullptr, nullptr, timeout >= 0 ? &tv : nullptr) == 1;
+    return poll(&fds, 1, timeout) == 1;
 }
 
 
