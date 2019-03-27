@@ -1,12 +1,17 @@
 cmake_minimum_required(VERSION 3.1)
 project(lredis)
 aux_source_directory(src my_src)
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 
 include(CheckCXXCompilerFlag)
 check_cxx_compiler_flag("-std=c++11" SUPPORT_CXX11)
 if (NOT SUPPORT_CXX11)
     message(FATAL_ERROR "compiler not support c++11")
+endif()
+
+if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang" OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "AppleClang" )
+include_directories("/usr/local/include")
+link_directories("/usr/local/lib")
 endif()
 
 set(CMAKE_MACOSX_RPATH 0)
