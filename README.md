@@ -25,7 +25,7 @@ end
 
 redis.command("set", "now", os.time());
 
---注意command和reply是一一对应的
+--注意command和reply回调是一对一的,用户可以自行在on_replay中维护一个FIFO队列.
 redis.on_reply = function(reply)
     --reply可能是单值的string,int,bool(false),或者是以上类型的一个数组
 end
