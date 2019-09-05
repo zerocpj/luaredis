@@ -11,27 +11,27 @@
 #include <unistd.h>
 #include "tools.h"
 #include "socket_helper.h"
-#include "dbagent.h"
+#include "redis_client.h"
 
 
-EXPORT_CLASS_BEGIN(dbagent)
+EXPORT_CLASS_BEGIN(redis_client)
 EXPORT_LUA_FUNCTION(connect)
 EXPORT_LUA_FUNCTION(disconnect)
 EXPORT_LUA_FUNCTION(update)
 EXPORT_LUA_FUNCTION(command)
 EXPORT_CLASS_END()
 
-dbagent::dbagent(lua_State* L)
+redis_client::redis_client(lua_State* L)
 {
     m_lvm = L;
 }
 
-dbagent::~dbagent()
+redis_client::~redis_client()
 {
     disconnect();
 }
 
-void dbagent::connect(const char* addr, int port, int timeout)
+void redis_client::connect(const char* addr, int port, int timeout)
 {
     disconnect();
 
@@ -42,7 +42,7 @@ void dbagent::connect(const char* addr, int port, int timeout)
     m_connecting_end = get_time_ms() + timeout;
 }
 
-void dbagent::disconnect()
+void redis_client::disconnect()
 {
     if (m_connecting != nullptr)
     {
@@ -57,7 +57,7 @@ void dbagent::disconnect()
     }
 }
 
-void dbagent::check_connecting(int timeout)
+void redis_client::check_connecting(int timeout)
 {
     int64_t now = get_time_ms();
     if (now > m_connecting_end)
@@ -92,7 +92,7 @@ void dbagent::check_connecting(int timeout)
     }
 }
 
-int dbagent::update(int timeout)
+int redis_client::update(int timeout)
 {
     if (m_connecting)
     {
@@ -139,7 +139,7 @@ int dbagent::update(int timeout)
     return count;
 }
 
-int dbagent::command(lua_State* L)
+int redis_client::command(lua_State* L)
 {
     int top = lua_gettop(L);
     if (top == 0 || m_redis == nullptr)
@@ -201,7 +201,7 @@ static void lua_push_reply(lua_State* L, redisReply* reply)
     }
 }
 
-void dbagent::on_reply(redisReply* reply)
+void redis_client::on_reply(redisReply* reply)
 {
     lua_guard g(m_lvm);
     if (!lua_get_object_function(m_lvm, this, "on_reply"))

@@ -8,7 +8,7 @@ lua访问redis接入层,内部封装了hiredis,采用异步模式.
 lredis = require("lredis");
 
 --创建lredis实例,每个实例代表一个连接
-redis = lredis.create_agent();
+redis = lredis.create_redis_client();
 
 --连接redis,注意connect是异步的,需要设置on_connect回调响应结果
 --2000为超时时间,单位毫秒
@@ -25,7 +25,7 @@ end
 
 redis.command("set", "now", os.time());
 
---注意command和reply回调是一对一的,用户可以自行在on_replay中维护一个FIFO队列.
+--注意command和reply是一一对应的
 redis.on_reply = function(reply)
     --reply可能是单值的string,int,bool(false),或者是以上类型的一个数组
 end

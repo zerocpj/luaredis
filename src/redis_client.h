@@ -9,18 +9,18 @@
 #include "lua.hpp"
 #include "luna.h"
 
-class dbagent final
+class redis_client final
 {
 public:
-    dbagent(lua_State* L);
-    ~dbagent();
+    redis_client(lua_State* L);
+    ~redis_client();
     void connect(const char* addr, int port, int timeout);
     void disconnect();
     void check_connecting(int timeout);
     int update(int timeout);
-    int  command(lua_State* L);
+    int command(lua_State* L);
 
-    DECLARE_LUA_CLASS(dbagent);
+    DECLARE_LUA_CLASS(redis_client);
 
 private:
     void on_reply(redisReply* reply);
