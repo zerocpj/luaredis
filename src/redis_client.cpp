@@ -14,12 +14,12 @@
 #include "redis_client.h"
 
 
-EXPORT_CLASS_BEGIN(redis_client)
-EXPORT_LUA_FUNCTION(connect)
-EXPORT_LUA_FUNCTION(disconnect)
-EXPORT_LUA_FUNCTION(update)
-EXPORT_LUA_FUNCTION(command)
-EXPORT_CLASS_END()
+LUA_EXPORT_CLASS_BEGIN(redis_client)
+LUA_EXPORT_METHOD(connect)
+LUA_EXPORT_METHOD(disconnect)
+LUA_EXPORT_METHOD(update)
+LUA_EXPORT_METHOD(command)
+LUA_EXPORT_CLASS_END()
 
 redis_client::redis_client(lua_State* L)
 {
